@@ -42,7 +42,7 @@ contract Calculadora {
     }
 
     // Internal Functions (a estas funciones no puede llamar el usuario)
-    function substractionLogic (uint256 _num1, uint256 _num2) public pure returns (uint256 _result){
+    function substractionLogic (uint256 _num1, uint256 _num2) internal pure returns (uint256 _result){
         require(_num1 > _num2, "Numero 1 debe ser mayor que numero 2, asi evitamos los negativos");
         _result = _num1 - _num2;
         return _result;
