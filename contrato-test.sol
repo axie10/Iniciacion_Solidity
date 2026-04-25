@@ -68,7 +68,7 @@ contract ContratoTest {
     }
 
     //* Funciones son bloques de código que se pueden llamar para realizar una tarea específica. En este caso, se están definiendo varias funciones para establecer los valores de las variables del contrato inteligente y para realizar una operación de multiplicación. Es importante utilizar funciones para organizar el código del contrato inteligente y para permitir la interacción con él desde otras aplicaciones o contratos inteligentes.
-    // function + argumentos (si los hay) + visibility (public, private, internal, external) + returns (si la función devuelve un valor)
+    // function + argumentos (si los hay) + visibility (public, private, internal, external) + modificadores + returns (si la función devuelve un valor)
     // Las ejecuciones de las funsciones son atomicas, lo que significa que si una función falla en algún punto, toda la ejecución de la función se revertirá y no se realizarán cambios en el estado del contrato inteligente. Es importante tener en cuenta esta característica de las funciones al diseñar el contrato inteligente, para garantizar la seguridad y la funcionalidad del contrato.
     // Visibilidad de las funciones:
     // - public: la función puede ser llamada desde cualquier lugar, tanto dentro como fuera del contrato inteligente. Es la visibilidad más común para las funciones que se utilizan para interactuar con el contrato inteligente desde otras aplicaciones o contratos inteligentes.
@@ -105,6 +105,31 @@ contract ContratoTest {
     }
 
     //* Modificadores son funciones especiales que se utilizan para modificar el comportamiento de otras funciones. En este caso, se está utilizando un modificador llamado "soloPropietario", que restringe el acceso a ciertas funciones solo al propietario del contrato inteligente. Es importante utilizar modificadores para garantizar la seguridad y la funcionalidad del contrato inteligente, y para evitar errores o ataques malintencionados.
-    address public propietario;
+    modifier soloPropietarioModifier() {
+        require(msg.sender == direccion, "Solo el propietario del contrato puede ejecutar esta funcion");
+        _;
+    }
+
+    modifier modificadorEjemplo() {
+        if (5 + 2 != 7) {
+            // El _ es un marcador de posición que indica dónde se ejecutará el código de la función a la que se aplica el modificador. En este caso, si la condición no se cumple, se revertirá la ejecución de la función y no se realizará ningún cambio en el estado del contrato inteligente. Es importante utilizar el marcador de posición _ para garantizar que el código de la función se ejecute correctamente dentro del modificador.
+            _;
+        } else {
+            revert("La condicion no se cumple");
+        }
+    }
+
+    // Donde se implementa el modificador, se coloca el nombre del modificador antes de la declaración de la función, seguido de los argumentos (si los hay) y la visibilidad de la función. Es importante implementar los modificadores correctamente para garantizar la seguridad y la funcionalidad del contrato inteligente.
+    // Primero va a comprobar la condicion del modificador, y si se cumple, se ejecuta el codigo de la funcion, pero si no se cumple, se revierte la ejecucion de la funcion y no se realiza ningun cambio en el estado del contrato inteligente. Es importante tener en cuenta esta secuencia de ejecucion al diseñar el contrato inteligente, para garantizar la seguridad y la funcionalidad del contrato.
+    function funcionConModificador() public soloPropietarioModifier returns (string memory) {
+        // Codigo de la funcion que solo el propietario del contrato puede ejecutar
+    }
+
+    //* Eventos son una forma de registrar información en la blockchain cuando se producen ciertas acciones en el contrato inteligente. En este caso, se está utilizando un evento llamado "EventoEjemplo", que se emite cuando se llama a la función "emitirEvento". Es importante utilizar eventos para registrar información relevante sobre las acciones que se producen en el contrato inteligente, para mejorar la transparencia y la trazabilidad del contrato.
+    event EventoEjemplo(string mensaje, uint numero);
+
+    function emitirEvento(string memory _mensaje, uint _numero) public {
+        emit EventoEjemplo(_mensaje, _numero);
+    }
 
 }
